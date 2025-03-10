@@ -103,19 +103,16 @@ private boolean isValid(int r, int c)
 private int countMines(int row, int col)
 {
     int numMines = 0;
-    int[][] directions = {
-        {-1,-1}, {-1,0}, {-1,1},
-        {0,-1},         {0,1},
-        {1,-1},  {1,0},  {1,1}
-    };
+    // Check each adjacent cell individually instead of using directions array
+    if(isValid(row-1, col-1) && mines.contains(buttons[row-1][col-1])) numMines++;
+    if(isValid(row-1, col)   && mines.contains(buttons[row-1][col]))   numMines++;
+    if(isValid(row-1, col+1) && mines.contains(buttons[row-1][col+1])) numMines++;
+    if(isValid(row, col-1)   && mines.contains(buttons[row][col-1]))   numMines++;
+    if(isValid(row, col+1)   && mines.contains(buttons[row][col+1]))   numMines++;
+    if(isValid(row+1, col-1) && mines.contains(buttons[row+1][col-1])) numMines++;
+    if(isValid(row+1, col)   && mines.contains(buttons[row+1][col]))   numMines++;
+    if(isValid(row+1, col+1) && mines.contains(buttons[row+1][col+1])) numMines++;
     
-    for(int[] dir : directions) {
-        int newRow = row + dir[0];
-        int newCol = col + dir[1];
-        if(isValid(newRow, newCol) && mines.contains(buttons[newRow][newCol])) {
-            numMines++;
-        }
-    }
     return numMines;
 }
 
@@ -174,23 +171,24 @@ public class MSButton
                     setLabel(mineCount);
                 }
                 else {
-                    int[][] directions = {
-                        {-1,-1}, {-1,0}, {-1,1},
-                        {0,-1},         {0,1},
-                        {1,-1},  {1,0},  {1,1}
-                    };
-                    for(int[] dir : directions) {
-                        int newRow = myRow + dir[0];
-                        int newCol = myCol + dir[1];
-                        if(isValid(newRow, newCol)) {
-                            MSButton neighbor = buttons[newRow][newCol];
-                            if(!neighbor.isClicked() && !neighbor.isFlagged()) {
-                                neighbor.mousePressed();
-                            }
-                        }
-                    }
+                    // Check each adjacent cell individually instead of using directions array
+                    if(isValid(myRow-1, myCol-1)) buttons[myRow-1][myCol-1].mousePressedIfValid();
+                    if(isValid(myRow-1, myCol))   buttons[myRow-1][myCol].mousePressedIfValid();
+                    if(isValid(myRow-1, myCol+1)) buttons[myRow-1][myCol+1].mousePressedIfValid();
+                    if(isValid(myRow, myCol-1))   buttons[myRow][myCol-1].mousePressedIfValid();
+                    if(isValid(myRow, myCol+1))   buttons[myRow][myCol+1].mousePressedIfValid();
+                    if(isValid(myRow+1, myCol-1)) buttons[myRow+1][myCol-1].mousePressedIfValid();
+                    if(isValid(myRow+1, myCol))   buttons[myRow+1][myCol].mousePressedIfValid();
+                    if(isValid(myRow+1, myCol+1)) buttons[myRow+1][myCol+1].mousePressedIfValid();
                 }
             }
+        }
+    }
+    
+    // Helper method to avoid code repetition
+    private void mousePressedIfValid() {
+        if(!isClicked() && !isFlagged()) {
+            mousePressed();
         }
     }
     
