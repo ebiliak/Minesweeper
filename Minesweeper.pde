@@ -103,7 +103,7 @@ private boolean isValid(int r, int c)
 private int countMines(int row, int col)
 {
     int numMines = 0;
-    // Check each adjacent cell individually instead of using directions array
+
     if(isValid(row-1, col-1) && mines.contains(buttons[row-1][col-1])) numMines++;
     if(isValid(row-1, col)   && mines.contains(buttons[row-1][col]))   numMines++;
     if(isValid(row-1, col+1) && mines.contains(buttons[row-1][col+1])) numMines++;
@@ -171,7 +171,7 @@ public class MSButton
                     setLabel(mineCount);
                 }
                 else {
-                    // Check each adjacent cell individually instead of using directions array
+                    
                     if(isValid(myRow-1, myCol-1)) buttons[myRow-1][myCol-1].mousePressedIfValid();
                     if(isValid(myRow-1, myCol))   buttons[myRow-1][myCol].mousePressedIfValid();
                     if(isValid(myRow-1, myCol+1)) buttons[myRow-1][myCol+1].mousePressedIfValid();
@@ -185,7 +185,7 @@ public class MSButton
         }
     }
     
-    // Helper method to avoid code repetition
+  
     private void mousePressedIfValid() {
         if(!isClicked() && !isFlagged()) {
             mousePressed();
